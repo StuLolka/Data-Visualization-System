@@ -1,24 +1,31 @@
+from matplotlib import colormaps
 from FigureCanvas import FigureCanvas
 from datatest import df
+import random
 from setup_ui import *
-
-def get_style_number(id):
-    style_number = sum([int(i) for i in id])
-    if style_number < 10:
-        return style_number
-    style_number = str(style_number)
-    return get_style_number(style_number)
-
-print(get_style_number('70214517'))
 
 win = setup_win('LoL')
 main_frame = setup_main_frame(win)
-columns = df.select_dtypes(include='number').columns[1:]
+figure_frame = setup_figure_frame(main_frame)
+columns = df.columns[1:]
 
 x = df[columns[0]]
 y = df[columns[0]]
 
-figure_canvas = FigureCanvas(main_frame, x, y, columns[0], columns[0])
+default_cmap = "magma"
+opt = tk.StringVar(value=default_cmap)
+
+colors = random.sample(colormaps(), 29)
+if default_cmap not in colors:
+    colors.pop(random.randrange(len(colors)))
+    colors.append(default_cmap)
+colors = sorted(colors)
+
+
+figure_canvas = FigureCanvas(figure_frame, x, y, columns[0], columns[0], task_number=3, cmap=default_cmap)
+
+colors_menu = tk.OptionMenu(figure_frame, opt, *colors, command=figure_canvas.set_cmap)
+colors_menu.grid(row=0, column=1, sticky=tk.NW, ipadx=0)
 
 
 save_button = tk.Button(main_frame, text='Сохранить', command=figure_canvas.save_figure)
@@ -33,4 +40,5 @@ X_buttons = setup_X_buttons(main_frame, columns)
 for button in X_buttons:
     name = button['text']
     button.configure(command=lambda x=df[name], name=name: figure_canvas.set_x(x, name))
+
 win.mainloop()
