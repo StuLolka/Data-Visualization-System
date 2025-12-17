@@ -1,15 +1,9 @@
 from FigureCanvas import FigureCanvas
 from datatest import df
 from setup_ui import *
+from constants import *
 
-def get_style_number(id):
-    style_number = sum([int(i) for i in id])
-    if style_number < 10:
-        return style_number
-    style_number = str(style_number)
-    return get_style_number(style_number)
-
-print(get_style_number('70214517'))
+print(get_style_number(id))
 
 win = setup_win('LoL')
 main_frame = setup_main_frame(win)

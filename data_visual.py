@@ -3,6 +3,7 @@ from FigureCanvas import FigureCanvas
 from datatest import df
 import random
 from setup_ui import *
+from constants import cmap
 
 win = setup_win('LoL')
 main_frame = setup_main_frame(win)
@@ -12,7 +13,7 @@ columns = df.columns[1:]
 x = df[columns[0]]
 y = df[columns[0]]
 
-default_cmap = "magma"
+default_cmap = cmap
 opt = tk.StringVar(value=default_cmap)
 
 colors = random.sample(colormaps(), 29)

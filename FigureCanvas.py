@@ -6,9 +6,19 @@ from datetime import datetime
 import numpy as np
 import tkinter as tk
 
-class FigureCanvas:
+from Painter import Painter
+from constants import color_val, cmap, get_bold
+from matplotlib.patches import Ellipse
+from PIL import ImageGrab
+from Painter import Painter
 
-    def __init__(self, frame, x, y, xlabel, ylabel, task_number=2, cmap="magma"):
+
+
+class FigureCanvas:
+    pen_color = color_val
+    bold = get_bold()
+
+    def __init__(self, frame, x, y, xlabel, ylabel, task_number=2, cmap=cmap, paint_mode_on=False):
         self.__x = x
         self.__y = y
         self.__xlabel = xlabel
@@ -16,6 +26,7 @@ class FigureCanvas:
         self.__frame = frame
         self.__task_number = task_number
         self.__cmap = cmap
+        self.__paint_mode_on = paint_mode_on
         self.create_canvas()
 
     def create_canvas(self):
@@ -24,8 +35,12 @@ class FigureCanvas:
         self.__ax.set_xlabel(self.__xlabel)
         self.__ax.set_ylabel(self.__ylabel)
         self.__canvas = FigureCanvasTkAgg(self.__fig, master=self.__frame)
-        row = 1 if self.__task_number == 3 else 0
-        self.__canvas.get_tk_widget().grid(row=row, column=1, sticky=tk.NW, padx=5, pady=5)
+        self.painter = Painter(canvas=self.__canvas)
+        row = 0 if self.__task_number == 2 else 1
+        self.__canvas.get_tk_widget().grid(row=row, column=0)
+        if self.__paint_mode_on:
+            self.turn_on_paint_mode()
+            # self.__canvas.get_tk_widget().bind("<Button-3>", self.turn_off_paint_mode)
         if np.dtype(self.__x) != object and np.dtype(self.__y) != object:
             self.__draw_numerics()
         else:
@@ -80,12 +95,14 @@ class FigureCanvas:
     def set_x(self, x, xlabel):
         self.__x = x
         self.__xlabel = xlabel
+        self.turn_off_paint_mode()
         self.__ax.clear()
         self.create_canvas()
 
     def set_y(self, y, ylabel):
         self.__y = y
         self.__ylabel = ylabel
+        self.turn_off_paint_mode()
         self.__ax.clear()
         self.create_canvas()
 
@@ -97,8 +114,42 @@ class FigureCanvas:
     def save_figure(self):
         now = datetime.now()
         current_time = now.strftime("%H_%M_%S")
-        self.__fig.savefig(f'graph{current_time}.png')
 
+        w = self.__canvas.get_tk_widget()
+        w.update_idletasks()
+
+        x = w.winfo_rootx()
+        y = w.winfo_rooty()
+        W = w.winfo_width()
+        H = w.winfo_height()
+
+        img = ImageGrab.grab(bbox=(x, y, x + W, y + H))
+
+
+        img.save(f'graph{current_time}.png')
+
+    def turn_on_paint_mode(self):
+        self.__paint_mode_on = True
+        # self.__canvas.mpl_connect("motion_notify_event", self.__paint)
+        self.__canvas.get_tk_widget().bind("<B1-Motion>", self.__paint)
+
+    def turn_off_paint_mode(self, event=None):
+        self.__paint_mode_on = False
+        self.__canvas.get_tk_widget().unbind("<B1-Motion>")
+
+    def __paint(self, event):
+        half_bold = float(self.bold) / 2
+        x1, y1 = (event.x - half_bold), (event.y - half_bold)
+        x2, y2 = (event.x + half_bold), (event.y + half_bold)
+        self.__canvas.get_tk_widget().create_line(x1, y1, x2, y2, fill=self.pen_color)
+
+
+    def set_pen_color(self, color):
+        self.pen_color = color
+
+    def set_bold(self, bold):
+        self.bold = bold
+        print(f'self.bold = {self.bold}')
 
 
 

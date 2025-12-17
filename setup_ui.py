@@ -17,6 +17,11 @@ def setup_figure_frame(main_frame):
     frame.grid(row=0, column=1)
     return frame
 
+def setup_top_settings_frame(figure_frame):
+    frame = tk.Frame(figure_frame)
+    frame.grid(row=0, column=0, sticky=tk.NW)
+    return frame
+
 def setup_X_buttons(frame, cols):
     if not len(cols): return []
 
