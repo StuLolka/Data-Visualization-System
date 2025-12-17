@@ -4,11 +4,8 @@ from matplotlib import colormaps
 import matplotlib.pyplot as plt
 from datetime import datetime
 import numpy as np
-import tkinter as tk
 
-from Painter import Painter
 from constants import color_val, cmap, get_bold
-from matplotlib.patches import Ellipse
 from PIL import ImageGrab
 from Painter import Painter
 
@@ -35,12 +32,11 @@ class FigureCanvas:
         self.__ax.set_xlabel(self.__xlabel)
         self.__ax.set_ylabel(self.__ylabel)
         self.__canvas = FigureCanvasTkAgg(self.__fig, master=self.__frame)
-        self.painter = Painter(canvas=self.__canvas)
+        self.painter = Painter(canvas=self.__canvas, pen_color=self.pen_color, bold=self.bold)
         row = 0 if self.__task_number == 2 else 1
         self.__canvas.get_tk_widget().grid(row=row, column=0)
         if self.__paint_mode_on:
             self.turn_on_paint_mode()
-            # self.__canvas.get_tk_widget().bind("<Button-3>", self.turn_off_paint_mode)
         if np.dtype(self.__x) != object and np.dtype(self.__y) != object:
             self.__draw_numerics()
         else:
@@ -90,7 +86,8 @@ class FigureCanvas:
             for box, color in zip(bp["boxes"], colors):
                 box.set_facecolor(color)
 
-
+    def remove_paint(self):
+        self.painter.remove_paint()
 
     def set_x(self, x, xlabel):
         self.__x = x
@@ -130,12 +127,13 @@ class FigureCanvas:
 
     def turn_on_paint_mode(self):
         self.__paint_mode_on = True
-        # self.__canvas.mpl_connect("motion_notify_event", self.__paint)
-        self.__canvas.get_tk_widget().bind("<B1-Motion>", self.__paint)
+        self.__canvas.get_tk_widget().config(cursor="pencil")
+        self.painter.start()
 
     def turn_off_paint_mode(self, event=None):
         self.__paint_mode_on = False
-        self.__canvas.get_tk_widget().unbind("<B1-Motion>")
+        self.__canvas.get_tk_widget().config(cursor="arrow")
+        self.painter.stop()
 
     def __paint(self, event):
         half_bold = float(self.bold) / 2
@@ -145,11 +143,10 @@ class FigureCanvas:
 
 
     def set_pen_color(self, color):
-        self.pen_color = color
+        self.painter.set_color(color)
 
     def set_bold(self, bold):
-        self.bold = bold
-        print(f'self.bold = {self.bold}')
+        self.painter.set_bold(bold)
 
 
 

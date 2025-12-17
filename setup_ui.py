@@ -30,9 +30,11 @@ def setup_X_buttons(frame, cols):
     buttons = []
     for index, name in enumerate(cols):
         button = tk.Button(buttons_frame, text=name)
-        row = index // 7
-        column = index % 7
-        button.grid(row=row, column=column, sticky=tk.W)
+        row = index // 10
+        column = index % 10
+        button.grid(row=row, column=column, sticky=tk.W, padx=2.5, pady=2.5)
+        buttons.append(button)
+        buttons.append(button)
         buttons.append(button)
     return buttons
 
@@ -44,6 +46,7 @@ def setup_Y_buttons(frame, cols):
     buttons = []
     for index, name in enumerate(cols):
         button = tk.Button(buttons_frame, text=name,)
-        button.grid(row=index, column=0, sticky=tk.W)
+        button.grid(row=index, column=0, sticky=tk.W, pady=2.5)
+        buttons.append(button)
         buttons.append(button)
     return buttons

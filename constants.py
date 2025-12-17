@@ -17,6 +17,3 @@ def get_bold(id=my_id):
 
 
 color_val = "#%02x%02x%02x" % get_rgb()
-
-print(color_val)
-

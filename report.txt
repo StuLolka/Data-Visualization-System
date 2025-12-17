@@ -46,7 +46,7 @@ Barons Against           0
 Result                   0
 dtype: int64
 
-                            СЃСЂРµРґРЅРµРµ   РјРµРґРёР°РЅР°   РѕС‚РєР»РѕРЅРµРЅРёРµ
+                            среднее   медиана   отклонение
 Unnamed: 0               105.781818   100.500    63.086715
 Kills                      2.109091     1.000     2.194010
 Deaths                     2.700000     3.000     1.732316
@@ -68,127 +68,127 @@ BYG    14
 UOL    13
 INF    13
 GS     12
-C9     12
 HLE    12
+C9     12
 LNG    10
 DFM     9
 PCE     9
 RED     6
 Name: count, dtype: int64, Player
 Kino          5
-Iwandy        4
-Nomanz        4
 Fudge         4
+Nomanz        4
+Iwandy        4
 Chovy         4
-Gaeng         3
-Mojito        3
-Aladoric      3
-Ackerman      3
-Vsta          3
-Jojo          3
-Cody          3
-Solidsnake    3
-Willer        3
-Whitelotus    3
-Boss          3
-Doggo         3
-Tarzan        3
 Steal         3
+Boss          3
+Solidsnake    3
 Zergsting     3
+Gaeng         3
+Willer        3
+Jojo          3
+Ackerman      3
+Cody          3
+Whitelotus    3
+Doggo         3
+Mojito        3
 Vulcan        3
-Violet        2
-Zven          2
-Maoan         2
-Alive         2
-Ale           2
+Tarzan        3
+Aladoric      3
+Vsta          3
+Argonavt      2
 Crazy         2
-Tally         2
+Perkz         2
+Husha         2
 Ahahacik      2
 Yutapon       2
-Husha         2
-Perkz         2
-Argonavt      2
+Violet        2
+Tally         2
+Ale           2
+Zven          2
 Santas        2
-Morgan        1
-Grevthar      1
-Bolulu        1
-Blaber        1
-Titan         1
-Aria          1
-Babip         1
-Zersting      1
+Alive         2
+Maoan         2
+Pk            1
 Guigo         1
 Buggax        1
-Icon          1
 Vizicsacsi    1
 Deft          1
-Pk            1
+Icon          1
+Babip         1
+Bolulu        1
+Zersting      1
+Blaber        1
+Aria          1
+Morgan        1
+Grevthar      1
+Titan         1
 Liang         1
 Name: count, dtype: int64, Opponent
 UOL    14
 BYG    14
-DFM    12
 HLE    12
+DFM    12
 LNG    11
 GS     10
-C9     10
 PCE    10
+C9     10
 INF     9
 RED     8
 Name: count, dtype: int64, Position
 Support    33
-Jungle     21
 Mid        21
+Jungle     21
 Adc        18
 Top        17
 Name: count, dtype: int64, Champion
 Leona           9
 Rakan           7
-Lee Sin         6
+Sylas           6
 Ezreal          6
 Miss Fortune    6
-Sylas           6
+Lee Sin         6
 Amumu           6
 Xin Zhao        5
-Braum           3
 Jayce           3
 Azir            3
 Leblanc         3
-Lucian          2
-Camille         2
-Zoe             2
-Qiyana          2
-Talon           2
+Braum           3
 Orianna         2
-Taliyah         2
-Jarvan          2
 Kennen          2
+Talon           2
 Irelia          2
+Taliyah         2
+Lucian          2
+Jarvan          2
+Zoe             2
+Camille         2
+Qiyana          2
 Wukong          2
-Tristana        1
-Gragas          1
-Aphelios        1
-Lulu            1
 Gwen            1
+Bard            1
+Galio           1
+Gangplank       1
+Zed             1
+Karma           1
+Tryndamere      1
+Thresh          1
+Jax             1
+Nautilus        1
+Nami            1
+Malphite        1
+Yone            1
+Twisted Fate    1
+Aphelios        1
+Gragas          1
+Lulu            1
+Tristana        1
 Rell            1
 Sion            1
 Lillia          1
 Kalista         1
 Graves          1
 Tahm Kench      1
-Twisted Fate    1
-Jax             1
-Yone            1
-Malphite        1
-Nami            1
-Nautilus        1
-Thresh          1
-Karma           1
-Tryndamere      1
-Galio           1
-Zed             1
-Gangplank       1
-Bard            1
 Draven          1
 Name: count, dtype: int64, Result
 L    59
