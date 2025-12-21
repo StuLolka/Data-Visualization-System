@@ -4,12 +4,11 @@ import io
 df = pd.read_csv('dataset.csv')
 
 def write_to_report(lines):
-    with open ('report.txt', 'w', encoding="utf-8") as f:
+    with open ('report.txt', 'w', encoding='utf-8') as f:
         f.write(lines)
 
-def build_report():
+def build_report(df):
     lines = []
-    df = pd.read_csv('dataset.csv')
 
     shape = df.shape
     lines.append(str(shape))
@@ -34,10 +33,9 @@ def build_report():
     for col in object_columns:
         lines.append(df[col].value_counts().to_string())
 
-    return "\n".join(lines).rstrip() + "\n"
-
-all_info = build_report()
-write_to_report(all_info)
+    return '\n'.join(lines).rstrip() + '\n'
 
 if __name__ == '__main__':
+    all_info = build_report(df)
+    write_to_report(all_info)
     print(all_info)
