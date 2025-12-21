@@ -1,27 +1,32 @@
 (110, 21)
-
-Unnamed: 0                 int64
-Team                      object
-Player                    object
-Opponent                  object
-Position                  object
-Champion                  object
-Kills                      int64
-Deaths                     int64
-Assists                    int64
-Creep Score                int64
-Gold Earned                int64
-Champion Damage Share    float64
-Kill Participation       float64
-Wards Placed               int64
-Wards Destroyed            int64
-Ward Interactions          int64
-Dragons For                int64
-Dragons Against            int64
-Barons For                 int64
-Barons Against             int64
-Result                    object
-dtype: object
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 110 entries, 0 to 109
+Data columns (total 21 columns):
+ #   Column                 Non-Null Count  Dtype  
+---  ------                 --------------  -----  
+ 0   Unnamed: 0             110 non-null    int64  
+ 1   Team                   110 non-null    object 
+ 2   Player                 110 non-null    object 
+ 3   Opponent               110 non-null    object 
+ 4   Position               110 non-null    object 
+ 5   Champion               110 non-null    object 
+ 6   Kills                  110 non-null    int64  
+ 7   Deaths                 110 non-null    int64  
+ 8   Assists                110 non-null    int64  
+ 9   Creep Score            110 non-null    int64  
+ 10  Gold Earned            110 non-null    int64  
+ 11  Champion Damage Share  110 non-null    float64
+ 12  Kill Participation     110 non-null    float64
+ 13  Wards Placed           110 non-null    int64  
+ 14  Wards Destroyed        110 non-null    int64  
+ 15  Ward Interactions      110 non-null    int64  
+ 16  Dragons For            110 non-null    int64  
+ 17  Dragons Against        110 non-null    int64  
+ 18  Barons For             110 non-null    int64  
+ 19  Barons Against         110 non-null    int64  
+ 20  Result                 110 non-null    object 
+dtypes: float64(2), int64(13), object(6)
+memory usage: 18.2+ KB
 
 Unnamed: 0               0
 Team                     0
@@ -44,9 +49,7 @@ Dragons Against          0
 Barons For               0
 Barons Against           0
 Result                   0
-dtype: int64
-
-                            среднее   медиана   отклонение
+                            СЃСЂРµРґРЅРµРµ   РјРµРґРёР°РЅР°   РѕС‚РєР»РѕРЅРµРЅРёРµ
 Unnamed: 0               105.781818   100.500    63.086715
 Kills                      2.109091     1.000     2.194010
 Deaths                     2.700000     3.000     1.732316
@@ -62,8 +65,7 @@ Dragons For                1.990909     2.000     1.391293
 Dragons Against            2.136364     2.000     1.344218
 Barons For                 0.527273     0.000     0.673333
 Barons Against             0.527273     0.000     0.616428
-
-[Team
+Team
 BYG    14
 UOL    13
 INF    13
@@ -74,7 +76,7 @@ LNG    10
 DFM     9
 PCE     9
 RED     6
-Name: count, dtype: int64, Player
+Player
 Kino          5
 Fudge         4
 Nomanz        4
@@ -124,7 +126,7 @@ Morgan        1
 Grevthar      1
 Titan         1
 Liang         1
-Name: count, dtype: int64, Opponent
+Opponent
 UOL    14
 BYG    14
 HLE    12
@@ -135,13 +137,13 @@ PCE    10
 C9     10
 INF     9
 RED     8
-Name: count, dtype: int64, Position
+Position
 Support    33
 Mid        21
 Jungle     21
 Adc        18
 Top        17
-Name: count, dtype: int64, Champion
+Champion
 Leona           9
 Rakan           7
 Sylas           6
@@ -190,8 +192,6 @@ Kalista         1
 Graves          1
 Tahm Kench      1
 Draven          1
-Name: count, dtype: int64, Result
+Result
 L    59
 W    51
-Name: count, dtype: int64]
-

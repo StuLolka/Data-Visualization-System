@@ -4,11 +4,9 @@ from matplotlib import colormaps
 import matplotlib.pyplot as plt
 from datetime import datetime
 import numpy as np
-
 from constants import color_val, cmap, get_bold
 from PIL import ImageGrab
-from Painter import Painter
-
+from FigureCanvasPainter import FigureCanvasPainter
 
 
 class FigureCanvas:
@@ -32,7 +30,7 @@ class FigureCanvas:
         self.__ax.set_xlabel(self.__xlabel)
         self.__ax.set_ylabel(self.__ylabel)
         self.__canvas = FigureCanvasTkAgg(self.__fig, master=self.__frame)
-        self.painter = Painter(canvas=self.__canvas, pen_color=self.pen_color, bold=self.bold)
+        self.painter = FigureCanvasPainter(canvas=self.__canvas, color=self.pen_color, bold=self.bold)
         row = 0 if self.__task_number == 2 else 1
         self.__canvas.get_tk_widget().grid(row=row, column=0)
         if self.__paint_mode_on:
@@ -121,18 +119,14 @@ class FigureCanvas:
         H = w.winfo_height()
 
         img = ImageGrab.grab(bbox=(x, y, x + W, y + H))
-
-
         img.save(f'graph{current_time}.png')
 
     def turn_on_paint_mode(self):
         self.__paint_mode_on = True
-        self.__canvas.get_tk_widget().config(cursor="pencil")
         self.painter.start()
 
     def turn_off_paint_mode(self, event=None):
         self.__paint_mode_on = False
-        self.__canvas.get_tk_widget().config(cursor="arrow")
         self.painter.stop()
 
     def __paint(self, event):

@@ -12,8 +12,6 @@ def get_rgb(id=my_id):
     return int(id[-6:-4]), int(id[-4:-2]), int(id[-2:])
 
 def get_bold(id=my_id):
-    return get_style_number() // 2 +5
-
-
+    return get_style_number() // 2 + 5
 
 color_val = "#%02x%02x%02x" % get_rgb()

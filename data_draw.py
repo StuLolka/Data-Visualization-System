@@ -1,13 +1,12 @@
-import tkinter as tk
-
 from tkinter import colorchooser
 
 from matplotlib import colormaps
 from FigureCanvas import FigureCanvas
-from datatest import df
+from dataset import df
 import random
 from setup_ui import *
 from constants import get_bold, color_val, cmap
+from SquarePainter import SquarePainter
 
 win = setup_win('LoL')
 main_frame = setup_main_frame(win)
@@ -31,8 +30,7 @@ if default_cmap not in colors:
     colors.append(default_cmap)
 colors = sorted(colors)
 
-colors_menu = tk.OptionMenu(settings_frame, opt, *colors, command=figure_canvas.set_cmap)
-colors_menu.grid(row=0, column=0)
+setup_cmap_frame(settings_frame, opt, *colors, command=figure_canvas.set_cmap)
 
 # Кнопка для рисования
 is_on = False
@@ -41,6 +39,7 @@ def turn_off_paint_mode():
     is_on = False
     paint_button.configure(relief=tk.RAISED)
     figure_canvas.turn_off_paint_mode()
+    square_painter.stop()
 
 def on_paint_toggle():
     global is_on
@@ -48,32 +47,34 @@ def on_paint_toggle():
     if is_on:
         paint_button.configure(relief=tk.SUNKEN)
         figure_canvas.turn_on_paint_mode()
+        square_painter.start()
     else:
         turn_off_paint_mode()
 
 paint_button = tk.Button(settings_frame, text="Рисование", command=on_paint_toggle)
-paint_button.grid(row=0, column=1, pady=15, padx=15)
+paint_button.grid(row=0, column=1, padx=15)
 
 # Поле для ввода толщины
 bold_label = tk.Label(settings_frame, text='Толщина:')
-bold_label.grid(row=0, column=2, pady=15)
+bold_label.grid(row=0, column=2)
 
 def on_key_release(event):
     current_value = bold_field.get()
     figure_canvas.set_bold(current_value)
-
-default_bold = tk.StringVar(value=get_bold())
-bold_field = tk.Entry(settings_frame, textvariable=default_bold, width=3)
+    square_painter.set_bold(current_value)
+default_bold = get_bold()
+bold_var = tk.StringVar(value=get_bold())
+bold_field = tk.Entry(settings_frame, textvariable=bold_var, width=3)
 bold_field.bind("<KeyRelease>", on_key_release)
 bold_field.grid(row=0, column=3)
 
 # Отступ
 space_frame = tk.Frame(settings_frame, width=15)
-space_frame.grid(row=0, column=4, pady=15)
+space_frame.grid(row=0, column=4)
 
 # Кнопка для изменения цвета
 color_label = tk.Label(settings_frame, text='Цвет:')
-color_label.grid(row=0, column=5, pady=15)
+color_label.grid(row=0, column=5)
 
 blank_image = tk.PhotoImage(width=15, height=15)
 color_button = tk.Button(settings_frame, image=blank_image, bg=color_val)
@@ -84,32 +85,33 @@ def choose_color(event=None):
         color = color_code[1]
         color_button.configure(bg=color)
         figure_canvas.set_pen_color(color)
+        square_painter.set_color(color)
 
 color_button.configure(command=choose_color)
-color_button.grid(row=0, column=6, pady=15, sticky=tk.W)
+color_button.grid(row=0, column=6, sticky=tk.W)
 
 # Кнопка "Сохранить"
 save_button = tk.Button(main_frame, text='Сохранить', command=figure_canvas.save_figure)
 save_button.grid(row=1, column=0, sticky=tk.NW, pady=5, ipadx=5)
 
 # X и Y кнопки
-def y_button_pressed(y, name, paint_button):
+def y_button_pressed(y, name):
     figure_canvas.set_y(y, name)
     turn_off_paint_mode()
 
-def x_button_pressed(x, name, paint_button):
+def x_button_pressed(x, name):
     figure_canvas.set_x(x, name)
     turn_off_paint_mode()
 
 Y_buttons = setup_Y_buttons(main_frame, columns)
 for button in Y_buttons:
     name = button['text']
-    button.configure(command=lambda y=df[name], name=name, paint_button=paint_button: y_button_pressed(y, name, paint_button))
+    button.configure(command=lambda y=df[name], name=name: y_button_pressed(y, name))
 
 X_buttons = setup_X_buttons(main_frame, columns)
 for button in X_buttons:
     name = button['text']
-    button.configure(command=lambda x=df[name], name=name, paint_button=paint_button: x_button_pressed(x, name, paint_button))
+    button.configure(command=lambda x=df[name], name=name: x_button_pressed(x, name))
 
 # Правая кнопка мыши
 def right_button_pressed(event=None):
@@ -117,10 +119,14 @@ def right_button_pressed(event=None):
 
 main_frame.bind_all("<Button-3>", right_button_pressed)
 
-# Bind keyboard shortcuts
+# Отменить последнюю линию
 def undo_action(event=None):
     figure_canvas.remove_paint()
 
 main_frame.bind_all("<Control-z>", undo_action)
+
+square_canvas = setup_top_canvas_frame(figure_frame)
+
+square_painter = SquarePainter(square_canvas, color=color_val, bold=default_bold)
 
 win.mainloop()

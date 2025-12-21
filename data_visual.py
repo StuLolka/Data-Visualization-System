@@ -1,6 +1,6 @@
 from matplotlib import colormaps
 from FigureCanvas import FigureCanvas
-from datatest import df
+from dataset import df
 import random
 from setup_ui import *
 from constants import cmap
@@ -14,19 +14,17 @@ x = df[columns[0]]
 y = df[columns[0]]
 
 default_cmap = cmap
-opt = tk.StringVar(value=default_cmap)
+cmap_var = tk.StringVar(value=default_cmap)
 
-colors = random.sample(colormaps(), 29)
-if default_cmap not in colors:
-    colors.pop(random.randrange(len(colors)))
-    colors.append(default_cmap)
-colors = sorted(colors)
-
+cmaps = random.sample(colormaps(), 29)
+if default_cmap not in cmaps:
+    cmaps.pop(random.randrange(len(cmaps)))
+    cmaps.append(default_cmap)
+cmaps = sorted(cmaps)
 
 figure_canvas = FigureCanvas(figure_frame, x, y, columns[0], columns[0], task_number=3, cmap=default_cmap)
 
-colors_menu = tk.OptionMenu(figure_frame, opt, *colors, command=figure_canvas.set_cmap)
-colors_menu.grid(row=0, column=1, sticky=tk.NW, ipadx=0)
+cmap_frame = setup_cmap_frame(figure_frame, cmap_var, *cmaps, command=figure_canvas.set_cmap)
 
 
 save_button = tk.Button(main_frame, text='Сохранить', command=figure_canvas.save_figure)
